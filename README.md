@@ -34,10 +34,15 @@ Returns a list off all the commands possible with explanations and uses
 ## DELETEWALLET
 Deletes the users wallet. 
 
-Returns 
+```
+/bank walletdelete
+```
+
+Returns: 
 ```
 Wallet Deleted
-```or 
+```
+or 
 ```
 Your Wallet Must Be Empty to be Deleted. Withdraw your Coins first.
 ```
