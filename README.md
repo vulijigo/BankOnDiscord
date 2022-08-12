@@ -91,7 +91,7 @@ This command must specify the amount to with draw. Here is an example of the com
 /brank withdraw 30
 ```
 A PNG will be returned. 
-```
+
 ## MOVE
 Moves coins from one person's wallet to another person's wallet. 
 ```
