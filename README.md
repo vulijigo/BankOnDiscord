@@ -69,7 +69,7 @@ Request
 /bank showcoins
 ```
 
-Returns something like:
+Returns an integer something like:
 ```
 33
 ```
@@ -118,7 +118,7 @@ File extension not supported. Please upload .bin or .png files
 ## WITHDRAW
 Brings the coin into the chat in the form of a PNG image and removes them from the wallet.
 
-This command must specify the amount to with draw. Here is an example of the command to withdraw 20 coins:
+This command must specify the amount to with draw. Here is an example of the command to withdraw 30 coins:
 ```
 /brank withdraw 30
 ```
@@ -135,14 +135,12 @@ Response:
 ```
 or
 ```
-Destination Wallet not found
-```
 Error: Destination wallet not found. The coins were not moved. 
 ```
 ## PAY
 Gives the server owner CloudCoins and calls their hook. Their hook can look through the transaction log to verify payment.
 
-Request to send the server owner 10 cloudcoins:
+Request to send the server owner 10 cloudcoins. The last number is an int that is the amount of cc the user will pay:
 ```
 /bank pay 10
 ```
