@@ -1,6 +1,6 @@
 import hikari
 import os
-
+from help import Help, ChooseHelp
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
 @bot.listen(hikari.GuildMessageCreateEvent)
@@ -12,7 +12,16 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
     # If a non-bot user sends a message "hk.ping", respond with "Pong!"
     # We check there is actually content first, if no message content exists,
     # we would get `None' here.
-    
+
+    command = event.content.split()
+    if(command[0] == '/help'):
+        if(len(command) == 1):
+            helpContent = await Help()
+            await event.message.respond(helpContent)
+        else:
+            helpContent = await ChooseHelp(command[1])
+            await event.message.respond(helpContent)
+
     if len(event.message.attachments) > 0:
         print('attachments found')
 
