@@ -1,6 +1,7 @@
 import hikari
+import os
 
-bot = hikari.GatewayBot(token = '')
+bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def print_message(event):
@@ -11,6 +12,10 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
     # If a non-bot user sends a message "hk.ping", respond with "Pong!"
     # We check there is actually content first, if no message content exists,
     # we would get `None' here.
+    
+    if len(event.message.attachments) > 0:
+        print('attachments found')
+
     if event.is_bot or not event.content:
         return
     if event.content.startswith("ping"):
