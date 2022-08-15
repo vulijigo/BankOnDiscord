@@ -1,6 +1,9 @@
 import hikari
 import os
 from help import Help, ChooseHelp
+from showcoins import ShowCoins
+from deposit import Deposit
+
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
 @bot.listen(hikari.GuildMessageCreateEvent)
@@ -14,6 +17,14 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
     # we would get `None' here.
 
     command = event.content.split()
+    if(command[0] == '/bank'):
+        if(len(command) > 1):
+            phrase = command[1]
+            if(phrase == 'deposit'):
+                await Deposit(event.author)
+            if(phrase == 'showcoins'):
+                await ShowCoins(event.author)
+
     if(command[0] == '/help'):
         if(len(command) == 1):
             helpContent = await Help()
@@ -29,7 +40,7 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
         return
     if event.content.startswith("ping"):
         await event.message.respond(str(event.author) + "-Pong!")
-    print(event.channel_id)
+
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def ping(event: hikari.GuildMessageCreateEvent) -> None:
     # If a non-bot user sends a message "hk.ping", respond with "Pong!"
