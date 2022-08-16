@@ -1,5 +1,29 @@
 async def Help():
-    return (await DeleteWalletHelp()) + '\n' (await ShowCoinsHelp()) + '\n' + (await DepositHelp())
+    depositContent = await DepositHelp()
+    withdrawContent = await WithdrawHelp()
+    mainContent = await MainHelp()
+    moveContent = await moveHelp()
+    payContent = await payHelp()
+    balanceContent = await balanceHelp()
+    statementContent = await statementHelp()
+    return mainContent + depositContent + withdrawContent + moveContent + payContent + balanceContent + statementContent
+
+async def MainHelp():
+    return '**✳️ WELCOME TO CLOUDBANK ✳️**\nThis bot allows you to deposit, withdraw and payout CloudCoins. This software is provided free of charge with all bugs, defects and vulnerabilities included free from the CloudCoin Consoritum. \n\n**BASIC COMMANDS ➡️**'
+
+async def statementHelp():
+    return '\n\n**🧾 STATEMENT**\n`/bank statement` Returns records of transactions\nNo extra information is required'
+
+async def balanceHelp():
+    return '\n\n**🔎 BALANCE**\n`/bank balance` Returns the number of coins in  your account\nNo extra information is required.'
+
+async def payHelp():
+    return "\n\n**❤️ PAY**\n`/bank pay` Places money from your account into the server's account and tells the server about the payment.\nRequires the number of coins to give the server: `/bank pay 50` where 50 is the number of coins to give the server/bot. "
+async def moveHelp():
+    return '\n\n**↔️ MOVE**\n`/bank move` Moves coins from your account to the account of another person\nRequires the number of coins to move and the user to move them to: `/bank move 10 larryG#3345` where 10 is the number of coins to move and larryG#3345 is the Discord user to receive the coins. They must have an account on this bot to receive coins. '
+
+async def WithdrawHelp():
+    return '\n\n**📤 WITHDRAW**\n`/bank withdraw` Removes cloudcoins from your account.\nRequires the amount of CloudCoins to be removed: `/bank withdraw 33` where 33 is the number of CloudCoins to be removed.'
 
 async def DeleteWalletHelp():
     return 'Deletes the users wallet.\n\tRequest:\n /deletewallet\nReturns:\n\tWallet Deleted\nor\n\tYour Wallet Must Be Empty to be Deleted. Withdraw your Coins first.'
@@ -8,7 +32,7 @@ async def ShowCoinsHelp():
     return 'Shows all the coins that are in the users wallet. This number includes coins in the Bank folder and in the Fracked folder.\n\tRequest:\n /showcoins\nReturns an integer something like:\n\t33'
 
 async def DepositHelp():
-    return 'DEPOSIT\nThis command will upload a coin file. I am not sure how the file will be uploaded. I assume the the file would be uploaded at the same time as the command is issued or it would be the next file. It could be that the user send the coin to the Bot and it is put into the users Import folder. Then the use issues the "deposit" command and all the files in the Import folder and imported. Maybe the program will ask them to attach an image?\nRequest:\n\t/deposit\nResponse:\n\tPlease attach an image with a .bin, .png or .stack extenstion that holds CloudCoins.\nUser then attaches a file. But, maybe they can attach a file with the first request and the stop above is not needed.\nThe return will include the outcome and the receipt. Something like:\n\tCoins Attempted: 1\nCoins Authentic: 1\nDETAILS: \nReceipt: 162e62e2484204d38cef95c8e5630ecf\n08/12/2022 00:09\nThe Pownstring shows each of the 25s RAIDA’s responses from 0 to 24 encoded in a single character. p=pass, f=fail, u=untried, n=no response and e= error.\nSerial Number : 9565182\nPownstring : ppppppppppppppppppppppppp\nResult : Authentic\nif something goes wrong it could return:\n\t.stack files are legacy coins that can be converted at the rate of 85.125 to one. Please use the convert command instead. \nor\nFile was coorupted. Coins were not imported.\nor\nFile extension not supported. Please upload .bin or .png files'
+    return '\n\n**📥 DEPOSIT**\n`/bank deposit` Creates and account if one does not exist. Uploads a CloudCoin file into your account\nRequires a .bin or .png file that contains CloudCoins.'
 
 async def ChooseHelp(help):
     if(help == 'deletewallet'):
