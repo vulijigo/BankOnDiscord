@@ -21,9 +21,9 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
         if(len(command) > 1):
             phrase = command[1]
             if(phrase == 'deposit'):
-                await Deposit(event.author)
+                await Deposit(event.author, event=event)
             if(phrase == 'showcoins'):
-                await ShowCoins(event.author)
+                await ShowCoins(event.author, event=event)
 
     if(command[0] == '/help'):
         if(len(command) == 1):
