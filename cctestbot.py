@@ -16,6 +16,9 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
     # We check there is actually content first, if no message content exists,
     # we would get `None' here.
 
+    if not event.content:
+        return
+
     command = event.content.split()
     if(command[0] == '/bank'):
         if(len(command) > 1):
@@ -35,11 +38,6 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             helpContent = await ChooseHelp(command[1])
             await event.message.respond(helpContent)
 
-    if len(event.message.attachments) > 0:
-        print('attachments found')
-
-    if event.is_bot or not event.content:
-        return
     if event.content.startswith("ping"):
         await event.message.respond(str(event.author) + "-Pong!")
 
