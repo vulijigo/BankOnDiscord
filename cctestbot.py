@@ -3,6 +3,7 @@ import os
 from help import Help, ChooseHelp
 from showcoins import ShowCoins
 from deposit import Deposit
+from statement import Statement
 
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
@@ -29,6 +30,8 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 await ShowCoins(event.author, event=event)
             if(phrase == 'balance'):
                 await ShowCoins(event.author, event=event)
+            if(phrase == 'statement'):
+                await Statement(event.author, event=event)
 
     if(command[0] == '/help'):
         if(len(command) == 1):

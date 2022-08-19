@@ -18,7 +18,6 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
         walletJson = { 'name': str(event.author_id)}
         createresponse = requests.post(createWalletUrl, json= walletJson)
         createresponsejson = createresponse.json()
-        print(createresponsejson)
         if(createresponsejson['status'] == 'success'):
             print('Wallet Created successfully')
     print('Depositing', len(event.message.attachments), ' files')
@@ -29,19 +28,16 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
         for coin in event.message.attachments:
             fdata = await coin.read()
             filename = os.path.join(os.getcwd() + os.sep + 'import',coin.filename)
-            print(filename)
             await event.message.respond('Processing file: ' + coin.filename)
             with open(filename, "wb") as binary_file:
                 binary_file.write(fdata)
             depositUrl = baseUrl + 'import'
             depositJson = {"name": str(event.author_id), "items":[{"type":"file", "data":filename}]}
             json_string = json.dumps(depositJson) 
-            print(json_string)
             depositresponse = requests.post(depositUrl, json_string)
             depositresponsejson = depositresponse.json()
             depositstatus = depositresponsejson['payload']['status']
             TASK_URL = baseUrl + 'tasks/' + depositresponsejson['payload']['id']
-            print(TASK_URL)
             while depositstatus == 'running':
                 taskresponse = requests.get(TASK_URL)
                 taskresponsejson = taskresponse.json()
