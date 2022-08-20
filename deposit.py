@@ -8,18 +8,19 @@ import json
 import time
 from showcoins import ShowCoins
 async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
-    checkWalletUrl = baseUrl + 'wallets/' + str(event.author_id) + '?contents=false'
+    checkWalletUrl = baseUrl + 'wallets/' + wallet + '?contents=false'
     response = requests.get(checkWalletUrl)
     responsejson = response.json()
     
     if(responsejson['status'] != 'success'):
         print('Wallet does not exist.Creating new one')
         createWalletUrl = baseUrl + 'wallets'
-        walletJson = { 'name': str(event.author_id)}
+        walletJson = { 'name': wallet}
         createresponse = requests.post(createWalletUrl, json= walletJson)
         createresponsejson = createresponse.json()
         if(createresponsejson['status'] == 'success'):
             print('Wallet Created successfully')
+            await event.message.respond("New Wallet created for you. your wallet name is:" + wallet)
     print('Depositing', len(event.message.attachments), ' files')
     await event.message.respond('Starting Coins deposit...')
     if (len(event.message.attachments) == 0):
@@ -32,7 +33,7 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
             with open(filename, "wb") as binary_file:
                 binary_file.write(fdata)
             depositUrl = baseUrl + 'import'
-            depositJson = {"name": str(event.author_id), "items":[{"type":"file", "data":filename}]}
+            depositJson = {"name": wallet, "items":[{"type":"file", "data":filename}]}
             json_string = json.dumps(depositJson) 
             depositresponse = requests.post(depositUrl, json_string)
             depositresponsejson = depositresponse.json()

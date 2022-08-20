@@ -3,7 +3,7 @@ import requests
 from constants import baseUrl
 
 async def Statement(wallet, event: hikari.DMMessageCreateEvent):
-    checkWalletUrl = baseUrl + 'statements/' + str(event.author_id)
+    checkWalletUrl = baseUrl + 'statements/' + wallet
     print(checkWalletUrl)
     response = requests.get(checkWalletUrl)
     responsejson = response.json()

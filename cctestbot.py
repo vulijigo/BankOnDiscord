@@ -24,22 +24,25 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
 
     command = event.content.split()
     if(command[0] == '/bank'):
+        walletName = str(event.author).replace("#","")
         if(len(command) > 1):
             phrase = command[1]
             if(phrase == 'deposit'):
-                await Deposit(event.author, event=event)
+                await Deposit(wallet= walletName, event=event)
             if(phrase == 'showcoins'):
-                await ShowCoins(event.author, event=event)
+                await ShowCoins(wallet= walletName, event=event)
             if(phrase == 'balance'):
-                await ShowCoins(event.author, event=event)
+                await ShowCoins(wallet= walletName, event=event)
             if(phrase == 'statement'):
-                await Statement(event.author, event=event)
+                await Statement(wallet= walletName, event=event)
             if(phrase == 'pay'):
-                await Pay(event.author, event=event)
+                amount = command[2]
+                print(walletName, amount)
+                await Pay(wallet= walletName, event=event, amount=amount)
             if(phrase == 'move'):
                 towallet = command[2]
                 amount = command[3]
-                await Move(event.author_id, event=event, towallet= towallet, amount= amount)
+                await Move(wallet=walletName, event=event, towallet= towallet, amount= amount)
 
     if(command[0] == '/help'):
         if(len(command) == 1):
