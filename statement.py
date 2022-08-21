@@ -3,10 +3,9 @@ import requests
 from constants import baseUrl
 
 async def Statement(wallet, event: hikari.DMMessageCreateEvent):
-    checkWalletUrl = baseUrl + 'statements/' + wallet
-    print(checkWalletUrl)
-    response = requests.get(checkWalletUrl)
+    statementUrl = baseUrl + 'wallets/' + wallet + '?contents=true' 
+    response = requests.get(statementUrl)
     responsejson = response.json()
-    print(responsejson)
-    await event.message.respond("Wallet Balance: " + str(0))
+    for trans in responsejson['payload']['transactions']:
+        await event.message.respond('Date: ' + trans['datetime'] + ',\t Type:' + trans['type'] + '.\t Message: ' + trans['message'] + '.\t Amount: ' + str(trans['amount']))
 
