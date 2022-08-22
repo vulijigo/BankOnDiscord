@@ -6,13 +6,14 @@ from table2ascii import table2ascii as t2a, PresetStyle
 
 async def Statement(wallet, event: hikari.DMMessageCreateEvent):
     statementUrl = baseUrl + 'wallets/' + wallet + '?contents=true' 
+    print(statementUrl)
     response = requests.get(statementUrl)
     responsejson = response.json()
     statementheader = ["S.No." ,"Date","Type", "Description", "Amount", "Running Balance"]
     records = []
-    # importing required library
-
-
+    if(responsejson['status'] == 'error'):
+        if(responsejson['payload']['message'] == 'Wallet not found'):
+            await event.message.respond('No statements')        
     sno = 1
     for trans in responsejson['payload']['transactions']:
         date = trans['datetime'].split('T')

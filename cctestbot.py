@@ -6,6 +6,8 @@ from deposit import Deposit
 from statement import Statement
 from pay import Pay
 from move import Move
+from withdraw import Withdraw
+from deletewallet import DeleteWallet
 import tanjun
 
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
@@ -50,6 +52,11 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 await ShowCoins(wallet= walletName, event=event)
             if(phrase == 'statement'):
                 await Statement(wallet= walletName, event=event)
+            if(phrase == 'deletewallet'):
+                await DeleteWallet(wallet= walletName, event=event)
+            if(phrase == 'withdraw'):
+                amount = command[2]
+                await Withdraw(wallet= walletName, event=event, amount= amount)
             if(phrase == 'pay'):
                 amount = command[2]
                 print(walletName, amount)
