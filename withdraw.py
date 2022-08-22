@@ -30,6 +30,10 @@ async def Withdraw(wallet, event: hikari.DMMessageCreateEvent, amount):
                     with open(f, "rb") as fh:
                         fh = hikari.File(f)
                         await event.message.respond(fh)
+            for filename in os.listdir(foldername):
+                f = os.path.join(foldername, filename)
+                os.remove(f)
+            
 
             await event.message.respond('Coins Withdrawn')
 
