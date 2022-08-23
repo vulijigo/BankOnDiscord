@@ -22,11 +22,12 @@ async def Withdraw(wallet, event: hikari.DMMessageCreateEvent, amount):
         taskresponsejson = taskresponse.json()
         depositstatus = taskresponsejson['payload']['status']
         time.sleep(2)
+        if(depositstatus == 'error'):
+                await event.message.respond(taskresponsejson['payload']['data']['message'])
         if(depositstatus == 'completed'):
             for filename in os.listdir(foldername):
                 f = os.path.join(foldername, filename)
                 if os.path.isfile(f):
-                    print('FileName:',f)
                     with open(f, "rb") as fh:
                         fh = hikari.File(f)
                         await event.message.respond(fh)
