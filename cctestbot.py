@@ -10,23 +10,10 @@ from withdraw import Withdraw
 from deletewallet import DeleteWallet
 from mywallet import MyWallet
 from transfer import Transfer
-import tanjun
 
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
 
-def make_client(bot: hikari.GatewayBot) -> tanjun.Client:
-    client = (
-        tanjun.Client.from_gateway_bot(
-            bot,
-            mention_prefix=True,
-            declare_global_commands=1007899107320397886
-        )
-    ).add_prefix("!")
-    client.load_modules("plugins.utilities")
-    return client
-
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
-make_client(bot)
 
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def print_message(event):
