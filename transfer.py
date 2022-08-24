@@ -12,7 +12,6 @@ async def Transfer(wallet, event: hikari.DMMessageCreateEvent, amount: int, skyw
     json_string = json.dumps(moveJson) 
     moveresponse = requests.post(depositUrl, json_string)
     moveresponsejson = moveresponse.json()
-    print(moveresponsejson)
     depositstatus = moveresponsejson['payload']['status']
     TASK_URL = baseUrl + 'tasks/' + moveresponsejson['payload']['id']
 
@@ -26,6 +25,5 @@ async def Transfer(wallet, event: hikari.DMMessageCreateEvent, amount: int, skyw
         time.sleep(1)
         if(depositstatus == 'completed'):
             if(taskresponsejson['status'] == 'success'):
-                print(taskresponsejson)
                 await event.message.respond("Move completed: " + str(amount) + ' coins moved to ' + skywallet)
     
