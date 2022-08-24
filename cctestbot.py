@@ -9,6 +9,7 @@ from move import Move
 from withdraw import Withdraw
 from deletewallet import DeleteWallet
 from mywallet import MyWallet
+from transfer import Transfer
 import tanjun
 
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
@@ -60,6 +61,10 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'withdraw'):
                 amount = command[2]
                 await Withdraw(wallet= walletName, event=event, amount= amount)
+            if(phrase == 'transfer'):
+                amount = command[2]
+                skywallet = command[3]
+                await Transfer(wallet= walletName, event=event, amount= amount, skywallet= skywallet)
             if(phrase == 'pay'):
                 amount = command[2]
                 print(walletName, amount)
@@ -73,10 +78,6 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
         if(len(command) == 1):
             helpContent = await Help()
             await event.message.respond(helpContent)
-            filename = 'test.txt'
-            with open(filename, "rb") as fh:
-                f = hikari.File(filename)
-                await event.message.respond(f)
         else:
             helpContent = await ChooseHelp(command[1])
             await event.message.respond(helpContent)
