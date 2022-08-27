@@ -10,6 +10,7 @@ from withdraw import Withdraw
 from deletewallet import DeleteWallet
 from mywallet import MyWallet
 from transfer import Transfer
+from createnft import CreateNFT
 
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
 
@@ -27,10 +28,18 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
 
     if not event.content:
         return
+    walletName = str(event.author).replace("#","")
 
     command = event.content.split()
+    if(command[0] == '/NFT'):
+        if(len(command) > 1):
+            phrase = command[1]
+            if(phrase=='create'):
+                title = command[2]
+                desc = command[3]
+                CreateNFT(walletName, event= event, title= title, desc= desc)
+
     if(command[0] == '/bank'):
-        walletName = str(event.author).replace("#","")
         if(len(command) > 1):
             phrase = command[1]
             if(phrase == 'deposit'):
