@@ -11,7 +11,7 @@ from deletewallet import DeleteWallet
 from mywallet import MyWallet
 from transfer import Transfer
 from createnft import CreateNFT
-
+from shownfts import ShowNFT
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
 
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
@@ -36,8 +36,15 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             phrase = command[1]
             if(phrase=='create'):
                 title = command[2]
-                desc = command[3]
+                paramlength = len(command)
+                desc = ''
+                for i in range(3, paramlength):
+                    desc = desc + ' ' + command[i]
                 await CreateNFT(walletName, event= event, title= title, desc= desc)
+            if(phrase=='show'):
+                print('')
+                await ShowNFT(walletName,event=event)
+
 
     if(command[0] == '/bank'):
         if(len(command) > 1):

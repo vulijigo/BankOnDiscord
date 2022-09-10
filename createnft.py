@@ -21,7 +21,7 @@ async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc
         await event.message.respond('Processing file: ' + coin.filename)
         with open(filename, "wb") as binary_file:
             binary_file.write(fdata)
-        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'folder': foldername, 'domain_name': 'nft.cloudcoin.digital', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : 'ccnfts'}
+        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'nft_name': 'NFTs.' + wallet, 'domain_name': 'nft.cloudcoin.digital', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : title, 'description': desc}
         print(nftJson)
         json_string = json.dumps(nftJson) 
         moveresponse = requests.post(createNFTUrl, json_string)
@@ -37,6 +37,7 @@ async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc
             time.sleep(2)
             if(depositstatus == 'error'):
                 await event.message.respond(taskresponsejson['payload']['data']['message'])
+                return
             if(depositstatus == 'completed'):
                 for filename in os.listdir(foldername):
                     f = os.path.join(foldername, filename)
@@ -47,12 +48,5 @@ async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc
             for filename in os.listdir(foldername):
                 f = os.path.join(foldername, filename)
                 os.remove(f)
-            
 
-            await event.message.respond('NFTs Created')
-
-
-
-
-
-    
+        await event.message.respond('NFTs Created')
