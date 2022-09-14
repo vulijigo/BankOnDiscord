@@ -2,9 +2,6 @@ import hikari
 import requests
 from datetime import datetime
 from constants import baseUrl
-import os
-import json
-import time
 from table2ascii import table2ascii as t2a, PresetStyle
 import base64
 
@@ -12,6 +9,7 @@ async def ShowNFT(wallet, event: hikari.DMMessageCreateEvent):
     showNFTUrl = baseUrl + 'nfts?nft_name=NFTs.' + wallet
     showresponse = requests.get(showNFTUrl)
     showresponsejson = showresponse.json()
+    print(showresponsejson)
     statementheader = ["S.No.", "SN" ,"Title","Description", ""]
     nfts = []
     sno = 1
