@@ -21,7 +21,7 @@ async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc
         await event.message.respond('Processing file: ' + coin.filename)
         with open(filename, "wb") as binary_file:
             binary_file.write(fdata)
-        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'nft_name': 'NFTs.' + wallet, 'domain_name': 'nft.cloudcoin.digital', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : title, 'description': desc}
+        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'nft_name': 'NFTs.' + wallet, 'domain_name': 'raidacloud.com', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : title, 'description': desc}
         print(nftJson)
         json_string = json.dumps(nftJson) 
         moveresponse = requests.post(createNFTUrl, json_string)
