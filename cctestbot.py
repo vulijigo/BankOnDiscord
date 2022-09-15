@@ -1,6 +1,6 @@
 import hikari
 import os
-from help import Help, ChooseHelp
+from help import Help, ChooseHelp, NFTHelp
 from showcoins import ShowCoins
 from deposit import Deposit
 from statement import Statement
@@ -36,6 +36,12 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
         if(len(command) > 1):
             phrase = command[1]
             if(phrase=='create'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a title for NFT')
+                    return
+                if(len(command) == 3):
+                    await event.message.respond('You must provide a description for NFT')
+                    return
                 title = command[2]
                 paramlength = len(command)
                 desc = ''
@@ -44,10 +50,15 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 await CreateNFT(walletName, event= event, title= title, desc= desc)
             if(phrase=='show'):
                 await ShowNFT(walletName,event=event)
+            if(phrase=='help'):
+                helpContent = await NFTHelp()
+                await event.message.respond(helpContent)
             if(phrase == 'withdraw'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a SN to withdraw NFT')
+                    return
                 sn = command[2]
                 await WithdrawNFT(walletName, event= event, sn= sn)
-                print('')
 
 
     if(command[0] == '/bank'):

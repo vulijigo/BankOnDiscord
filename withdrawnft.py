@@ -12,6 +12,10 @@ async def WithdrawNFT(wallet, event: hikari.DMMessageCreateEvent, sn: Number):
     nftresponse  = requests.get(withdrawNFTUrl)
     nftresponsejson =nftresponse.json()
     print(nftresponsejson)
+    if(nftresponsejson['status'] == 'error'):
+        await event.message.respond(nftresponsejson['payload']['message'])
+        return
+
     if(nftresponsejson['status'] == 'success'):
             data = nftresponsejson['payload']
             await event.message.respond('Title: ' + data['hostname'])

@@ -11,6 +11,9 @@ async def Help():
 async def MainHelp():
     return '**✳️ WELCOME TO CLOUDBANK ✳️**\nThis bot allows you to deposit, withdraw and payout CloudCoins. This software is provided free of charge with all bugs, defects and vulnerabilities included free from the CloudCoin Consoritum. \n\n**BASIC COMMANDS ➡️**'
 
+async def MainNFTHelp():
+    return '**✳️ WELCOME TO CLOUDBANK NFTs ✳️**\nThis bot allows you to create, list and withdraw NFT from CloudCoins. This software is provided free of charge with all bugs, defects and vulnerabilities included free from the CloudCoin Consoritum. \n\n**BASIC COMMANDS ➡️**'
+
 async def statementHelp():
     return '\n\n**🧾 STATEMENT**\n`/bank statement` Returns records of transactions\nNo extra information is required'
 
@@ -34,6 +37,13 @@ async def ShowCoinsHelp():
 async def DepositHelp():
     return '\n\n**📥 DEPOSIT**\n`/bank deposit` Creates and account if one does not exist. Uploads a CloudCoin file into your account\nRequires a .bin or .png file that contains CloudCoins.'
 
+async def NFTCreateHelp():
+    return '\n\n**📥 CREATE**\n`/nft create title description\nThis bot allows you to create NFTs from your cloudcoins in CloudBank. You must have a non zero balance in your wallet to create an NFT. This will create a new NFT wallet for you on the server.\n\n '
+async def NFTsHOWHelp():
+    return '\n\n**📥 SHOW**\n`/nft show Lists all the NFTs created by you in tabular format\n\n '
+async def NFTWithdrawHelp():
+    return '\n\n**📥 WITHDRAW**\n`/nft withdraw withdraws an NFT and sends back the PNG by discord bot\n\n '
+
 async def ChooseHelp(help):
     if(help == 'deletewallet'):
         content = await DeleteWalletHelp()
@@ -44,4 +54,14 @@ async def ChooseHelp(help):
     if(help == 'deposit'):
         content = await DepositHelp()
         return content
+
+async def NFTHelp():
+        mainContent = await MainNFTHelp()
+        nftCreateContent = await NFTCreateHelp()
+        nftshowContent = await NFTsHOWHelp()
+        nftWithdrawHelp = await NFTWithdrawHelp()
+        return mainContent + nftCreateContent + nftshowContent + nftWithdrawHelp
+
+
+
 

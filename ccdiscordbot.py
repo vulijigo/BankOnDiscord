@@ -1,5 +1,6 @@
 import hikari
 import os
+import lightbulb
 from help import Help, ChooseHelp
 from showcoins import ShowCoins
 from deposit import Deposit
@@ -13,8 +14,6 @@ from transfer import Transfer
 from createnft import CreateNFT
 from shownfts import ShowNFT
 from withdrawnft import WithdrawNFT
-#https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
-
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
 @bot.listen(hikari.GuildMessageCreateEvent)
@@ -44,6 +43,8 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 await CreateNFT(walletName, event= event, title= title, desc= desc)
             if(phrase=='show'):
                 await ShowNFT(walletName,event=event)
+            if(phrase=='help'):
+                print('help')
             if(phrase == 'withdraw'):
                 sn = command[2]
                 await WithdrawNFT(walletName, event= event, sn= sn)
