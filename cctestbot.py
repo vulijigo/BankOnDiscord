@@ -77,6 +77,9 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'deletewallet'):
                 await DeleteWallet(wallet= walletName, event=event)
             if(phrase == 'withdraw'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide an amount to withdraw Cloudcoins')
+                    return
                 amount = command[2]
                 await Withdraw(wallet= walletName, event=event, amount= amount)
             if(phrase == 'transfer'):
@@ -85,12 +88,11 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 await Transfer(wallet= walletName, event=event, amount= amount, skywallet= skywallet)
             if(phrase == 'pay'):
                 amount = command[2]
-                print(walletName, amount)
                 await Pay(wallet= walletName, event=event, amount=amount)
             if(phrase == 'move'):
                 towallet = command[2]
                 amount = command[3]
-                await Move(wallet=walletName, event=event, towallet= towallet, amount= amount, type= 0)
+                await Move(wallet=walletName, event=event, towallet= towallet, amount= amount)
 
     if(command[0] == '/help'):
         if(len(command) == 1):
