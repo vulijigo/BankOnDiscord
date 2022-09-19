@@ -7,7 +7,8 @@ import os
 import time
 
 async def Withdraw(wallet, event: hikari.DMMessageCreateEvent, amount):
-    foldername = os.path.join(os.getcwd() + os.sep + 'export' + os.sep, str(wallet))
+    fullpath = os.path.join(os.getcwd(), 'export')
+    foldername = os.path.join(fullpath, str(wallet))
     if(not os.path.exists(foldername)):
         os.mkdir(foldername)
     withdrawUrl = baseUrl + 'export'
@@ -17,26 +18,29 @@ async def Withdraw(wallet, event: hikari.DMMessageCreateEvent, amount):
     moveresponsejson = moveresponse.json()
     depositstatus = moveresponsejson['payload']['status']
     TASK_URL = baseUrl + 'tasks/' + moveresponsejson['payload']['id']
-    while depositstatus == 'running':
-        taskresponse = requests.get(TASK_URL)
-        taskresponsejson = taskresponse.json()
-        depositstatus = taskresponsejson['payload']['status']
-        time.sleep(2)
-        if(depositstatus == 'error'):
-                await event.message.respond(taskresponsejson['payload']['data']['message'])
-        if(depositstatus == 'completed'):
-            for filename in os.listdir(foldername):
-                f = os.path.join(foldername, filename)
-                if os.path.isfile(f):
-                    with open(f, "rb") as fh:
-                        fh = hikari.File(f)
-                        await event.message.respond(fh)
-            for filename in os.listdir(foldername):
-                f = os.path.join(foldername, filename)
-                os.remove(f)
+    try:
+        while depositstatus == 'running':
+            taskresponse = requests.get(TASK_URL)
+            taskresponsejson = taskresponse.json()
+            depositstatus = taskresponsejson['payload']['status']
+            time.sleep(2)
+            if(depositstatus == 'error'):
+                    await event.message.respond(taskresponsejson['payload']['data']['message'])
+            if(depositstatus == 'completed'):
+                for filename in os.listdir(foldername):
+                    f = os.path.join(foldername, filename)
+                    if os.path.isfile(f):
+                        with open(f, "rb") as fh:
+                            fh = hikari.File(f)
+                            await event.message.respond(fh)
+                for filename in os.listdir(foldername):
+                    f = os.path.join(foldername, filename)
+                    os.remove(f)
             
 
-            await event.message.respond('Coins Withdrawn')
+                await event.message.respond('Coins Withdrawn')
+    except:
+        await event.message.respond('An Error occured while depositting ')
 
 
 
