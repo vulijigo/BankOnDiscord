@@ -60,7 +60,7 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 sn = command[2]
                 await WithdrawNFT(walletName, event= event, sn= sn)
 
-    bankphrases = ['deposit', 'showcoins', 'balance','whatsmywallet','statement', 'deletewallet', 'withdraw', 'transfer', 'pay', 'move']
+    bankphrases = ['deposit', 'showcoins', 'balance','whatsmywallet','statement', 'deletewallet', 'withdraw', 'transfer', 'pay','help', 'move']
 
     if(command[0] == '/bank'):
         if(len(command) > 1):
