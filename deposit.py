@@ -11,11 +11,7 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
     checkWalletUrl = baseUrl + 'wallets/' + wallet + '?contents=false'
     response = requests.get(checkWalletUrl)
     responsejson = response.json()
-    # print('Current dir:', os.getcwd())    
     fullpath = os.path.join(os.getcwd(), 'import')
-    print(fullpath)
-    # filename = os.path.join(fullpath, 'abc.png')
-    # print(filename)
     if(responsejson['status'] != 'success'):
         print('Wallet does not exist.Creating new one')
         createWalletUrl = baseUrl + 'wallets'
@@ -31,32 +27,32 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
         await event.message.respond('No Coins found')
     else:
         for coin in event.message.attachments:
-            fdata = await coin.read()
-            print('Current Working dir: ',os.getcwd())
-            # filename = os.path.join(os.getcwd() + os.sep + 'import',coin.filename)
-            filename = os.path.join(fullpath, coin.filename)
-            print(filename)
-            await event.message.respond('Processing file: ' + coin.filename)
-            with open(filename, "wb") as binary_file:
-                binary_file.write(fdata)
-            depositUrl = baseUrl + 'import'
-            depositJson = {"name": wallet, "items":[{"type":"file", "data":filename}]}
-            json_string = json.dumps(depositJson) 
-            depositresponse = requests.post(depositUrl, json_string)
-            depositresponsejson = depositresponse.json()
-            depositstatus = depositresponsejson['payload']['status']
-            TASK_URL = baseUrl + 'tasks/' + depositresponsejson['payload']['id']
-            while depositstatus == 'running':
-                taskresponse = requests.get(TASK_URL)
-                taskresponsejson = taskresponse.json()
-                depositstatus = taskresponsejson['payload']['status']
-                time.sleep(2)
-            if(depositstatus == 'completed'):
-                authentic = taskresponsejson['payload']['data']['pown_results']['authentic']
-                counterfeit = taskresponsejson['payload']['data']['pown_results']['counterfeit']
-                total = taskresponsejson['payload']['data']['pown_results']['total']
-                unknown = taskresponsejson['payload']['data']['pown_results']['unknown']
-                await event.message.respond('Coins imported..\nTotal: ' + str(total) + '\nAuthentic: '+ str(authentic) + '\nCounterfeit:' + str(counterfeit) + '\nUnknown: ' + str(unknown))
+            try:
+                fdata = await coin.read()
+                filename = os.path.join(fullpath, coin.filename)
+                await event.message.respond('Processing file: ' + coin.filename)
+                with open(filename, "wb") as binary_file:
+                    binary_file.write(fdata)
+                depositUrl = baseUrl + 'import'
+                depositJson = {"name": wallet, "items":[{"type":"file", "data":filename}]}
+                json_string = json.dumps(depositJson) 
+                depositresponse = requests.post(depositUrl, json_string)
+                depositresponsejson = depositresponse.json()
+                depositstatus = depositresponsejson['payload']['status']
+                TASK_URL = baseUrl + 'tasks/' + depositresponsejson['payload']['id']
+                while depositstatus == 'running':
+                    taskresponse = requests.get(TASK_URL)
+                    taskresponsejson = taskresponse.json()
+                    depositstatus = taskresponsejson['payload']['status']
+                    time.sleep(2)
+                if(depositstatus == 'completed'):
+                    authentic = taskresponsejson['payload']['data']['pown_results']['authentic']
+                    counterfeit = taskresponsejson['payload']['data']['pown_results']['counterfeit']
+                    total = taskresponsejson['payload']['data']['pown_results']['total']
+                    unknown = taskresponsejson['payload']['data']['pown_results']['unknown']
+                    await event.message.respond('Coins imported..\nTotal: ' + str(total) + '\nAuthentic: '+ str(authentic) + '\nCounterfeit:' + str(counterfeit) + '\nUnknown: ' + str(unknown))
+            except:
+                await event.message.respond('An Error occured while depositting '+ coin.filename + '. Please check your file or try again')
             await ShowCoins(wallet, event)
 
     return ''
