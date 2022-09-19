@@ -11,7 +11,11 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
     checkWalletUrl = baseUrl + 'wallets/' + wallet + '?contents=false'
     response = requests.get(checkWalletUrl)
     responsejson = response.json()
-    
+    # print('Current dir:', os.getcwd())    
+    fullpath = os.path.join(os.getcwd(), 'import')
+    print(fullpath)
+    # filename = os.path.join(fullpath, 'abc.png')
+    # print(filename)
     if(responsejson['status'] != 'success'):
         print('Wallet does not exist.Creating new one')
         createWalletUrl = baseUrl + 'wallets'
@@ -28,7 +32,10 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
     else:
         for coin in event.message.attachments:
             fdata = await coin.read()
-            filename = os.path.join(os.getcwd() + os.sep + 'import',coin.filename)
+            print('Current Working dir: ',os.getcwd())
+            # filename = os.path.join(os.getcwd() + os.sep + 'import',coin.filename)
+            filename = os.path.join(fullpath, coin.filename)
+            print(filename)
             await event.message.respond('Processing file: ' + coin.filename)
             with open(filename, "wb") as binary_file:
                 binary_file.write(fdata)
