@@ -11,16 +11,16 @@ async def WithdrawNFT(wallet, event: hikari.DMMessageCreateEvent, sn: Number):
     print(withdrawNFTUrl)
     nftresponse  = requests.get(withdrawNFTUrl)
     nftresponsejson =nftresponse.json()
-    print(nftresponsejson)
+    # print(nftresponsejson)
     if(nftresponsejson['status'] == 'error'):
         await event.message.respond(nftresponsejson['payload']['message'])
         return
 
     if(nftresponsejson['status'] == 'success'):
             data = nftresponsejson['payload']
-            await event.message.respond('Title: ' + data['hostname'])
-            await event.message.respond('Description: ' + data['description'])
-            base64txt = data['PNG']
+            # await event.message.respond('Title: ' + data['hostname'])
+            # await event.message.respond('Description: ' + data['description'])
+            base64txt = data['Data']
             imgdata = base64.b64decode(base64txt)
             filename = str(sn) + '.PNG'
             with open(filename, 'wb') as f:
