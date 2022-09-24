@@ -1,7 +1,6 @@
 import hikari
 import os
-import lightbulb
-from help import Help, ChooseHelp
+from help import Help, ChooseHelp, NFTHelp
 from showcoins import ShowCoins
 from deposit import Deposit
 from statement import Statement
@@ -14,6 +13,8 @@ from transfer import Transfer
 from createnft import CreateNFT
 from shownfts import ShowNFT
 from withdrawnft import WithdrawNFT
+#https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
+
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
 
 @bot.listen(hikari.GuildMessageCreateEvent)
@@ -35,6 +36,12 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
         if(len(command) > 1):
             phrase = command[1]
             if(phrase=='create'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a title for NFT')
+                    return
+                if(len(command) == 3):
+                    await event.message.respond('You must provide a description for NFT')
+                    return
                 title = command[2]
                 paramlength = len(command)
                 desc = ''
@@ -44,16 +51,24 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase=='show'):
                 await ShowNFT(walletName,event=event)
             if(phrase=='help'):
-                print('help')
+                helpContent = await NFTHelp()
+                await event.message.respond(helpContent)
             if(phrase == 'withdraw'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a SN to withdraw NFT')
+                    return
                 sn = command[2]
                 await WithdrawNFT(walletName, event= event, sn= sn)
-                print('')
 
+    bankphrases = ['deposit', 'showcoins', 'balance','whatsmywallet','statement', 'deletewallet', 'withdraw', 'transfer', 'pay','help', 'move']
 
     if(command[0] == '/bank'):
         if(len(command) > 1):
             phrase = command[1]
+            if(not phrase in bankphrases):
+                await event.message.respond('Invalid Command')
+                helpContent = await Help()
+                await event.message.respond(helpContent)
             if(phrase == 'deposit'):
                 await Deposit(wallet= walletName, event=event)
             if(phrase == 'showcoins'):
@@ -67,20 +82,25 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'deletewallet'):
                 await DeleteWallet(wallet= walletName, event=event)
             if(phrase == 'withdraw'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide an amount to withdraw Cloudcoins')
+                    return
                 amount = command[2]
                 await Withdraw(wallet= walletName, event=event, amount= amount)
             if(phrase == 'transfer'):
                 amount = command[2]
                 skywallet = command[3]
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a wallet name for transfer')
+                    return
                 await Transfer(wallet= walletName, event=event, amount= amount, skywallet= skywallet)
             if(phrase == 'pay'):
                 amount = command[2]
-                print(walletName, amount)
                 await Pay(wallet= walletName, event=event, amount=amount)
             if(phrase == 'move'):
                 towallet = command[2]
                 amount = command[3]
-                await Move(wallet=walletName, event=event, towallet= towallet, amount= amount, type= 0)
+                await Move(wallet=walletName, event=event, towallet= towallet, amount= amount)
 
     if(command[0] == '/help'):
         if(len(command) == 1):

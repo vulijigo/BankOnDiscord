@@ -90,6 +90,9 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'transfer'):
                 amount = command[2]
                 skywallet = command[3]
+                if(len(command) == 2):
+                    await event.message.respond('You must provide a wallet name for transfer')
+                    return
                 await Transfer(wallet= walletName, event=event, amount= amount, skywallet= skywallet)
             if(phrase == 'pay'):
                 amount = command[2]

@@ -8,20 +8,32 @@ import time
 
 async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc: str):
     createNFTUrl = baseUrl + 'nfts/export'
-    foldername = os.path.join(os.getcwd() + os.sep + 'nft'+ os.sep + 'export' + os.sep, str(wallet))
+    nftWalletName = 'NFTs.' + wallet
+    nftSyncUrl = baseUrl + 'nftsync?nft_name=' + nftWalletName
+    nftpath = os.path.join(os.getcwd(), 'nft')
+    exportpath = os.path.join(nftpath, 'export')
+    importpath = os.path.join(nftpath, 'import')
+    foldername = os.path.join(exportpath, str(wallet))
+    importfoldername = os.path.join(importpath, str(wallet))
+
     if(not os.path.exists(foldername)):
         os.mkdir(foldername)
+    if(not os.path.exists(importfoldername)):
+        os.mkdir(importfoldername)
+
     
     if (len(event.message.attachments) == 0):
         await event.message.respond('Please attach a .PNG file')
         return
     for coin in event.message.attachments:
         fdata = await coin.read()
-        filename = os.path.join(os.getcwd() + os.sep + 'nft' + os.sep + 'import',coin.filename)
+        filename = os.path.join(importfoldername,coin.filename)
         await event.message.respond('Processing file: ' + coin.filename)
         with open(filename, "wb") as binary_file:
             binary_file.write(fdata)
-        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'nft_name': 'NFTs.' + wallet, 'domain_name': 'raidacloud.com', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : title, 'description': desc}
+        nftJson = { 'name': wallet, 'amount' :1 , 'template_path': filename, 'nft_name': nftWalletName, 'domain_name': 'raidacloud.com', 'text': title, 'x': 100, "y": 100, 'font_size': 24, 'host_name' : title, 'description': desc}
+        nftSyncJson = {'domain_name': 'raidacloud.com', 'host_name' : title, 'create_txt': True, 'nft_name': nftWalletName }
+
         print(nftJson)
         json_string = json.dumps(nftJson) 
         moveresponse = requests.post(createNFTUrl, json_string)
@@ -39,6 +51,14 @@ async def CreateNFT(wallet, event: hikari.DMMessageCreateEvent, title: str, desc
                 await event.message.respond(taskresponsejson['payload']['data']['message'])
                 return
             if(depositstatus == 'completed'):
+                json_string = json.dumps(nftSyncJson) 
+                print(json_string)
+                syncresponse = requests.post(nftSyncUrl, json_string)
+                syncresponsejson = syncresponse.json()
+                print(syncresponsejson)
+                if(syncresponsejson['status'] == 'success'):
+                    await event.message.respond('NFT for ' + coin.filename + ' synced successfully')
+
                 for filename in os.listdir(foldername):
                     f = os.path.join(foldername, filename)
                     if os.path.isfile(f):
