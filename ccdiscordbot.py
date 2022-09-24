@@ -30,11 +30,16 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
     if not event.content:
         return
     walletName = str(event.author).replace("#","")
-
+    nftphrases = ['create', 'show','help', 'withdraw']
     command = event.content.split()
     if(command[0].upper() == '/NFT'):
         if(len(command) > 1):
             phrase = command[1]
+            if(not phrase in nftphrases):
+                await event.message.respond('Invalid Command')
+                helpContent = await NFTHelp()
+                await event.message.respond(helpContent)
+
             if(phrase=='create'):
                 if(len(command) == 2):
                     await event.message.respond('You must provide a title for NFT')
@@ -60,7 +65,7 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                 sn = command[2]
                 await WithdrawNFT(walletName, event= event, sn= sn)
 
-    bankphrases = ['deposit', 'showcoins', 'balance','whatsmywallet','statement', 'deletewallet', 'withdraw', 'transfer', 'pay','help', 'move']
+    bankphrases = ['deposit', 'showcoins', 'balance','whatsmywallet','statement', 'deletewallet', 'withdraw', 'transfer', 'pay','help', 'move', 'bet']
 
     if(command[0] == '/bank'):
         if(len(command) > 1):
@@ -97,6 +102,14 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'pay'):
                 amount = command[2]
                 await Pay(wallet= walletName, event=event, amount=amount)
+            if(phrase == 'bet'):
+                if(len(command) == 2):
+                    await event.message.respond('You must provide an amount')
+                    return
+                amount = command[2]
+                
+                await Pay(wallet= walletName, event=event, amount=amount)
+
             if(phrase == 'move'):
                 towallet = command[2]
                 amount = command[3]
