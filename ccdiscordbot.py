@@ -13,6 +13,7 @@ from transfer import Transfer
 from createnft import CreateNFT
 from shownfts import ShowNFT
 from withdrawnft import WithdrawNFT
+from bet import Bet
 #https://patchwork.systems/programming/hikari-discord-bot/introduction-and-basic-bot.html
 
 bot = hikari.GatewayBot(token = os.environ['CCBOT_TOKEN'])
@@ -107,8 +108,8 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
                     await event.message.respond('You must provide an amount')
                     return
                 amount = command[2]
-                
-                await Pay(wallet= walletName, event=event, amount=amount)
+                description = 'Bet placed by ' + walletName + ' for ' + str(amount) + ' Cloudcoins'
+                await Bet(wallet= walletName, event=event, amount=amount, description= description)
 
             if(phrase == 'move'):
                 towallet = command[2]
