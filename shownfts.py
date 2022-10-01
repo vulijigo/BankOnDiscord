@@ -13,7 +13,7 @@ async def ShowNFT(wallet, event: hikari.DMMessageCreateEvent):
     nfts = []
     sno = 1
     for trans in showresponsejson['payload']:
-        nfts.append([sno,trans['sn'], trans['hostname'], trans['description'], ''])
+        nfts.append([sno,trans.get('sn'), trans.get('hostname'), trans.get('description'), ''])
         sno = sno + 1
     
     output = t2a(
