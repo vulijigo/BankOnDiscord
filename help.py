@@ -33,19 +33,19 @@ async def DeleteWalletHelp():
     return '\n\n** 🚫 DELETE WALLET **\nDeletes the users wallet.\n\tRequest:\n /deletewallet\nReturns:\n\tWallet Deleted\nor\n\tYour Wallet Must Be Empty to be Deleted. Withdraw your Coins first.'
 
 async def ShowCoinsHelp():
-    return '\n\n** 💵 SHOWCOINS **\nShows all the coins that are in the users wallet. This number includes coins in the Bank folder and in the Fracked folder.\n\tRequest:\n `/showcoins`\nReturns an integer something like:\n\t33'
+    return '\n\n** 👀 SHOWCOINS **\nShows all the coins that are in the users wallet. This number includes coins in the Bank folder and in the Fracked folder.\n\tRequest:\n `/showcoins`\nReturns an integer something like:\n\t33'
 
 async def DepositHelp():
     return '\n\n** 📥 DEPOSIT**\n`/bank deposit` Creates and account if one does not exist. Uploads a CloudCoin file into your account\nFiles must have a .bin or .png file extension. Only CloudCoin 2.0 is supported. Type `/bank deposit` and then click the plus sign on the left to upload a file.  '
 
 async def NFTCreateHelp():
-    return '\n\n** 🖼 CREATE**\n`/nft create title description\nThis bot allows you to create NFTs from your cloudcoins in CloudBank. You must have a non zero balance in your wallet to create an NFT. This will create a new NFT wallet for you on the server.\n\n '
+    return '\n\n** 🎨 CREATE**\n`/nft create title description\nThis bot allows you to create NFTs from your cloudcoins in CloudBank. You must have a non zero balance in your wallet to create an NFT. This will create a new NFT wallet for you on the server.\n\n '
     
 async def NFTsHOWHelp():
-    return '\n\n**📱 SHOW**\n`/nft show Lists all the NFTs created by you in tabular format\n\n '
+    return '\n\n**👀 SHOW**\n`/nft show Lists all the NFTs created by you in tabular format\n\n '
     
 async def NFTWithdrawHelp():
-    return '\n\n**📮 WITHDRAW**\n`/nft withdraw withdraws an NFT and sends back the PNG by discord bot\n\n '
+    return '\n\n**📤 WITHDRAW**\n`/nft withdraw withdraws an NFT and sends back the PNG by discord bot\n\n '
 
 async def ChooseHelp(help):
     if(help == 'deletewallet'):
