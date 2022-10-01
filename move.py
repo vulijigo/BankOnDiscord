@@ -1,3 +1,4 @@
+import tarfile
 from unicodedata import numeric
 import hikari
 import requests
@@ -23,8 +24,10 @@ async def Move(wallet, event: hikari.DMMessageCreateEvent, towallet: str, amount
             await event.message.respond("Move failed: " + taskresponsejson['payload']['data']['message'])
 
         time.sleep(1)
+        target = towallet
+        if(towallet == 'Default'): target = 'Owner'
         if(depositstatus == 'completed'):
             if(taskresponsejson['status'] == 'success'):
-                await event.message.respond("Move completed: " + str(taskresponsejson['payload']['data']['amount']) + ' coins moved to ' + towallet)
+                await event.message.respond("Move completed: " + str(taskresponsejson['payload']['data']['amount']) + ' coins moved to ' + target)
 
 
