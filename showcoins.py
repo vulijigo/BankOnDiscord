@@ -7,9 +7,9 @@ async def ShowCoins(wallet, event: hikari.DMMessageCreateEvent):
     response = requests.get(checkWalletUrl)
     responsejson = response.json()
     if(responsejson['status'] == 'success'):
-        await event.message.respond("Wallet Balance: " + str(responsejson['payload']['balance']))
+        await event.message.respond("Balance: " + str(responsejson['payload']['balance']))
     else:
-        await event.message.respond("Wallet Balance: " + str(0))
+        await event.message.respond("Balance: " + str(0))
 
     embed = hikari.Embed()
     embed.title = "Wallet Name: " + str(wallet)
