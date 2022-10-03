@@ -8,6 +8,7 @@ import json
 import time
 from showcoins import ShowCoins
 async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
+    nftWalletName =  "NFTs." + wallet
     checkWalletUrl = baseUrl + 'wallets/' + wallet + '?contents=false'
     response = requests.get(checkWalletUrl)
     responsejson = response.json()
@@ -16,8 +17,12 @@ async def Deposit(wallet, event: hikari.DMMessageCreateEvent):
         print('Wallet does not exist.Creating new one')
         createWalletUrl = baseUrl + 'wallets'
         walletJson = { 'name': wallet}
+        nftwalletJson = {'name': nftWalletName}
         createresponse = requests.post(createWalletUrl, json= walletJson)
         createresponsejson = createresponse.json()
+        nftcreateresponse = requests.post(createWalletUrl, json= nftwalletJson)
+        nftcreateresponsejson = nftcreateresponse.json()
+        
         if(createresponsejson['status'] == 'success'):
             print('Wallet Created successfully')
             await event.message.respond("New Wallet created for you. your wallet name is:" + wallet)
