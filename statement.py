@@ -40,7 +40,7 @@ async def Statement(wallet, event: hikari.DMMessageCreateEvent, page):
     body=records,
     style=PresetStyle.thin_compact)
     await event.message.respond(f"```\n{output}\n```")
-    await event.message.respond('Page ' + str(page) + ' of ' + str(numpages))
+    await event.message.respond('Page ' + str(page) + ' of ' + str(int(numpages)))
 
 
 

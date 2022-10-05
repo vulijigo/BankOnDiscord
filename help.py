@@ -6,7 +6,8 @@ async def Help():
     payContent = await payHelp()
     balanceContent = await balanceHelp()
     statementContent = await statementHelp()
-    return mainContent + depositContent + withdrawContent + moveContent + payContent + balanceContent + statementContent
+    deletewalletContent  = await deletewalletHelp()
+    return mainContent + depositContent + withdrawContent + moveContent + payContent + balanceContent + statementContent + deletewalletContent
 
 async def MainHelp():
     return '**✳️ WELCOME TO CLOUDCOIN VAULT ✳️**\nThis bot allows you to deposit, withdraw and payout CloudCoins. This software is provided free of charge with all bugs, defects and vulnerabilities included free from the CloudCoin Consortium. \n\n**BASIC COMMANDS**'
@@ -15,10 +16,13 @@ async def MainNFTHelp():
     return '**✳️ WELCOME TO CLOUDCOIN NFT VAULT ✳️**\nThis bot allows you to create, list and withdraw NFTs powered by CloudCoin. This software is provided free of charge with all bugs, defects and vulnerabilities included free from the CloudCoin Consoritum. \n\n**BASIC COMMANDS ➡️**'
 
 async def statementHelp():
-    return '\n\n**🧾 STATEMENT**\n`/bank statement` Returns records of transactions\nNo extra information is required'
+    return '\n\n**🧾 STATEMENT**\n`/bank statement <page>` Returns records of transactions as a set of 10 records.\ne.g. /bank statement 1 returns first page of statement'
 
 async def balanceHelp():
     return '\n\n**🔎 BALANCE**\n`/bank balance` Returns the number of coins in  your account\nNo extra information is required.'
+
+async def deletewalletHelp():
+    return '\n\n**🔎 DELETE WALLET **\n`/bank deletewallet` Deletes your wallet if its empty\nPlease withdraw all your coins before issuing this command.'
 
 async def payHelp():
     return "\n\n**❤️ PAY**\n`/bank pay` Places money from your account into the server's account and tells the server about the payment.\nRequires the number of coins to give the server: `/bank pay 50` where 50 is the number of coins to give the server/bot. "
