@@ -91,7 +91,12 @@ async def ping(event: hikari.DMMessageCreateEvent) -> None:
             if(phrase == 'whatsmywallet'):
                 await MyWallet(wallet= walletName, event=event)
             if(phrase == 'statement'):
-                await Statement(wallet= walletName, event=event)
+                page = 1
+                if(len(command) == 2):
+                    page = "1"
+                if(len(command) > 2):
+                    page = command[2]
+                await Statement(wallet= walletName, event=event, page= page)
             if(phrase == 'deletewallet'):
                 await DeleteWallet(wallet= walletName, event=event)
             if(phrase == 'withdraw'):
