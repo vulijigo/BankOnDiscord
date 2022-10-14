@@ -1,9 +1,9 @@
 # BankOnDiscord
 or 
 # BankBot
-Allows Companies to include CloudCoin Banks on their Discord Servers
+Allows Companies to include CloudCoin Banks on their Discord Servers.
 
-This program is a Discord Bot that runs on a Discord Server. The idea is that many companies can  have their own Discord Banks. 
+This program is a Discord Bot that runs on a Discord Server. The idea is that many companies can have their own Discord Banks. 
 
 ## BankBot Commands
 To talk to the Bank Bot, the user types in "/bank". Then the user will be prompted for a command. Here are the commands available. All commands should be case insensitive including the parameters. 
@@ -29,9 +29,9 @@ To talk to the Bank Bot, the user types in "/bank". Then the user will be prompt
 10. We will be adding commands that support NFTs later including createNFT, deleteNFT, validateNFT etc.
 
 ## HELP
-Returns a list off all the commands possible with explanations and uses
+Returns a list of all the commands possible with explanations and uses.
 
-Sample Request completed at the Discord chat box. Note the use types in "/bank" then gets a prompt.
+Sample Request completed at the Discord chat box. Note the user types in "/bank" then gets a prompt.
 ```
 /bank help
 ```
@@ -45,7 +45,7 @@ Commands available:
 
 
 ## DELETEWALLET
-Deletes the users wallet. 
+Deletes the user's wallet. 
 
 Request:
 ```
@@ -62,20 +62,20 @@ Your Wallet Must Be Empty to be Deleted. Withdraw your Coins first.
 ```
 
 ## SHOWCOINS
-Shows all the coins that are in the users wallet. This number includes coins in the Bank folder and in the Fracked folder. 
+Shows all the coins that are in the user's wallet. This number includes coins in the Bank folder and in the Fracked folder. 
 
 Request
 ```
 /bank showcoins
 ```
 
-Returns an integer something like:
+Returns an integer. Example:
 ```
 33
 ```
 
 ## DEPOSIT
-This command will upload a coin file. I am not sure how the file will be uploaded. I assume the the file would be uploaded at the same time as the command is issued or it would be the next file. It could be that the user send the coin to the Bot and it is put into the users Import folder. Then the use issues the "deposit" command and all the files in the Import folder and imported. 
+This command will upload a coin file. I am not sure how the file will be uploaded. I assume that the file would be uploaded at the same time as the command is issued or it would be the next file. It could be that the user sends the coin to the Bot and it is put into the user's Import folder. Then the user issues the "deposit" command and all the files in the Import folder are imported. 
  Maybe the program will ask them to attach an image?
 
 Request:
@@ -98,7 +98,7 @@ Receipt: 162e62e2484204d38cef95c8e5630ecf
 
 08/12/2022 00:09
 
-The Pownstring shows each of the 25s RAIDA’s responses from 0 to 24 encoded in a single character. p=pass, f=fail, u=untried, n=no response and e= error.
+The Pownstring shows each of the 25 RAIDA’s responses from 0 to 24 encoded in a single character. p=pass, f=fail, u=untried, n=no response and e= error.
 
 Serial Number : 9565182
 
@@ -111,16 +111,16 @@ if something goes wrong it could return:
 .stack files are legacy coins that can be converted at the rate of 85.125 to one. Please use the convert command instead. 
 or
 File was coorupted. Coins were not imported.
-of
-File extension not supported. Please upload .bin or .png files
+or
+File extension not supported. Please upload .bin or .png files.
 ```
 
 ## WITHDRAW
 Brings the coin into the chat in the form of a PNG image and removes them from the wallet.
 
-This command must specify the amount to with draw. Here is an example of the command to withdraw 30 coins:
+This command must specify the amount to withdraw. Here is an example of the command to withdraw 30 coins:
 ```
-/brank withdraw 30
+/bank withdraw 30
 ```
 A PNG will be returned. 
 
@@ -150,7 +150,7 @@ Payment received. Your receipt number is 8787878782774344
 ```
 or
 ```
-Insufficient funds. Your balance is 3
+Insufficient funds. Your balance is 3.
 ```
 
 
@@ -178,16 +178,16 @@ Request:
 ```
 Response: 
 ```
-Please attach a .stack file
+Please attach a .stack file.
 ```
 
 Return:
 ```
-Returns errors associated with the convert and askse for their email.
+Returns errors associated with the convert and askss for their email.
 ```
 or
 ```
-Coins converted. Your new balance is 50
+Coins converted. Your new balance is 50.
 ```
 
 
